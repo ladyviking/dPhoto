@@ -13,16 +13,14 @@ public class CarouselService {
         List<Drawable> images;
 
         private void loadImageUrls(){
-            Thread thread = new Thread(new Runnable() {
-                public void run() {
-                    //TODO: connect to cloud location and get all non-video image urls
-                    final Drawable image1 =
-                            loadImageFromWebOperations("https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg");
-                    images.add(image1);
-                    final Drawable image2 =
-                            loadImageFromWebOperations("https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg");
-                    images.add(image2);
-                }
+            Thread thread = new Thread(() -> {
+                //TODO: connect to cloud location and get all non-video image urls
+                final Drawable image1 =
+                        loadImageFromWebOperations("https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg");
+                images.add(image1);
+                final Drawable image2 =
+                        loadImageFromWebOperations("https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg");
+                images.add(image2);
             });
 
             thread.start();
@@ -42,25 +40,22 @@ public class CarouselService {
             //counter = 0;
             int totalImages = images.size();
 
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 0; i <= totalImages; i++) {
-                        if (i == totalImages){
-                            i = 0;
+            Runnable runnable = () -> {
+                for (int i = 0; i <= totalImages; i++) {
+                    if (i == totalImages){
+                        i = 0;
+                    }
+                    final int value = i;
+                    Drawable image = images.get(value);
+                    imageView.post(new Runnable() {
+                        public void run() {
+                            imageView.setImageDrawable(image);
                         }
-                        final int value = i;
-                        Drawable image = images.get(value);
-                        imageView.post(new Runnable() {
-                            public void run() {
-                                imageView.setImageDrawable(image);
-                            }
-                        });
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    });
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             };
