@@ -22,7 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ImageView imageView;
-    CarouselActivity carousel;
+    CarouselService carousel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
 
-        carousel = new CarouselActivity();
+        carousel = new CarouselService();
 
         carousel.start(imageView);
 
