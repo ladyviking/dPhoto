@@ -17,16 +17,18 @@ public class CarouselService {
                 public void run() {
                     //TODO: connect to cloud location and get all non-video image urls
                     final Drawable image1 =
-                            LoadImageFromWebOperations("https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg");
+                            loadImageFromWebOperations("https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg");
                     images.add(image1);
                     final Drawable image2 =
-                            LoadImageFromWebOperations("https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg");
+                            loadImageFromWebOperations("https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg");
                     images.add(image2);
                 }
             });
 
             thread.start();
-            while(thread.isAlive()){}
+            while(thread.isAlive()) {
+                //wait
+            }
 
         }
 
@@ -65,11 +67,10 @@ public class CarouselService {
             new Thread(runnable).start();
         }
 
-        private static Drawable LoadImageFromWebOperations(String url) {
+        private static Drawable loadImageFromWebOperations(String url) {
             try {
                 InputStream is = (InputStream) new URL(url).getContent();
-                Drawable d = Drawable.createFromStream(is, "src name");
-                return d;
+                return Drawable.createFromStream(is, "src name");
             } catch (Exception e) {
                 return null;
             }
